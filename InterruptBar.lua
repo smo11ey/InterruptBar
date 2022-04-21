@@ -2,7 +2,7 @@
 -- Interrupt Bar by Kollektiv
 ----------------------------------------------------
 
-InterruptBarDB = InterruptBarDB or { scale = 1, reuse = true, hidden = false, lock = false, }
+InterruptBarDB = InterruptBarDB or { scale = 1, reuse = true, hidden = false, lock = false, width = 10}
 local abilities = {}
 local order
 local band = bit.band
@@ -68,6 +68,8 @@ local order = {100, 61490, 6552, 72, 1766, 47528, 2139, 19647, 15487, 30283, 579
 -----------------------------------------------------
 -----------------------------------------------------
 
+-- edit this to change the max. width
+
 for k,v in ipairs(order) do order[k] = GetSpellInfo(v) end
 
 local frame
@@ -94,6 +96,7 @@ local function getsize()
 end
 
 local function InterruptBar_UpdateIconPos()
+	-- i dont know where the -45 comes from and im too lazy to find out
 	local x = -45
 	local y = 0
 
@@ -103,25 +106,9 @@ local function InterruptBar_UpdateIconPos()
 		if activetimers[ability] then
 			btn:SetPoint("CENTER",bar,"CENTER",x,y)
 			btn:Show()
-			--
-			--	Originally i < AbilityCount / 2
-			--	Which was counted early on when adding 
-			--  	The abilities to a table
-			--	
-			--  	This method ensures we only use the number of
-			--	Abilities that are going to be displayed
-			--  	Given in the order table.
-			--
-			if i < #(order) / 2 then
-				x = x + 30
-			else
-				if i > #(order) / 2 then
-					x = x + 30
-				else
-					y = y - 30
-					x = -45
-				end
-			end
+
+			x = (i % InterruptBarDB.width * 30) - 45
+			y = math.floor(i / InterruptBarDB.width) * 30
 
 			-- V: maintain a different counter than curAbility
 			i = i + 1
@@ -338,6 +325,7 @@ local cmdfuncs = {
 	lock = function() InterruptBarDB.lock = not InterruptBarDB.lock; InterruptBar_UpdateBar() end,
 	reset = function() InterruptBar_Reset() end,
 	test = function() InterruptBar_Test() end,
+	width = function(v) InterruptBarDB.width = v; InterruptBar_UpdateBar() end,
 }
 
 local cmdtbl = {}
@@ -355,11 +343,13 @@ function InterruptBar_Command(cmd)
   else
   	ChatFrame1:AddMessage("InterruptBar Options | /ib <option>",0,1,0)  	
   	ChatFrame1:AddMessage("-- scale <number> | value: " .. InterruptBarDB.scale,0,1,0)
+	ChatFrame1:AddMessage("-- width <number> | value: " .. InterruptBarDB.width,0,1,0)
   	ChatFrame1:AddMessage("-- hidden (toggle) | value: " .. tostring(InterruptBarDB.hidden),0,1,0)
   	ChatFrame1:AddMessage("-- reuse (toggle) | value: " .. tostring(InterruptBarDB.reuse),0,1,0)
   	ChatFrame1:AddMessage("-- lock (toggle) | value: " .. tostring(InterruptBarDB.lock),0,1,0)
   	ChatFrame1:AddMessage("-- test (execute)",0,1,0)
   	ChatFrame1:AddMessage("-- reset (execute)",0,1,0)
+
   end
 end
 
@@ -370,6 +360,7 @@ local function InterruptBar_OnLoad(self)
 	if not InterruptBarDB.hidden then InterruptBarDB.hidden = false end
 	if not InterruptBarDB.reuse then InterruptBarDB.reuse = false end
 	if not InterruptBarDB.lock then InterruptBarDB.lock = false end
+	if not InterruptBarDB.width then InterruptBarDB.width = 10 end
 	InterruptBar_CreateBar()
 	
 	SlashCmdList["InterruptBar"] = InterruptBar_Command
