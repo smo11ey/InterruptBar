@@ -20,11 +20,3 @@ This version adds an Omnibar-like "show icons on CDs in a row", instead of the d
 
 - Added console command to change width (max # of icons on one row)
 - grows up now
-
-Example:
-
-![before](https://cdn.discordapp.com/attachments/328555540831666178/569967561547186176/unknown.png)
-
-*a few seconds later...*
-
-![after](https://cdn.discordapp.com/attachments/328555540831666178/569967521193787394/unknown.png)
