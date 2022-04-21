@@ -2,6 +2,7 @@ Improved WoTLK Interrupt Bar
 ================================
 
 By Vendethiel. Original by Kollektiv.
+Small changes by smo11ey
 
 ### Instructions
 
@@ -14,6 +15,11 @@ Don't forget to :
 ### Notes
 
 This version adds an Omnibar-like "show icons on CDs in a row", instead of the default behavior of InterruptBar (order never changes).
+
+### smo11ey changes:
+
+Added console command to change width (max # of icons on one row)
+grows up now
 
 Example:
 
