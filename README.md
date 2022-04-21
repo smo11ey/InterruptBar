@@ -18,8 +18,8 @@ This version adds an Omnibar-like "show icons on CDs in a row", instead of the d
 
 ### smo11ey changes:
 
-Added console command to change width (max # of icons on one row)
-grows up now
+- Added console command to change width (max # of icons on one row)
+- grows up now
 
 Example:
 
